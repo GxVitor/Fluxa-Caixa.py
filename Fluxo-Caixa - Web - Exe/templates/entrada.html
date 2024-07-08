@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entrada</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+</head>
+
+<body>
+
+    <!--Cabeça-->
+    <header class="bg-info">
+        <nav class="navbar navbar-expand-lg bg-info">
+            <div class="container-fluid">
+              <a class="navbar-brand text-uppercase fw-bold" href="/Index">Tutinha</a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/entrada">Entrada</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/saida">Saida</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/vencimento-saida">Vencimento - Saida</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/vencimento-entrada">Vencimento - Entrada</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </nav>
+    </header>
+
+   <main class="container">
+    <form action="/AddEntrada" class="card mt-5 mx-10" method="post">
+        <!--Titolo do Card-->
+        <div class="card-header bg-primary">
+            <h4 class="card-title text-uppercase text-center">Entrada</h4>
+        </div>
+         <!--Corpo do Card-->
+         <div class="card-body">
+                <div class="row">
+                    <h3 class="fw-bold fs-3 text-center">
+                        {% set aviso = get_flashed_messages() %}
+                        {% if(aviso) %}
+                            {{aviso[0]}}
+                        {% endif %}
+                    </h3>
+                    <div class="col">
+                    <input type="text" class="form-control" placeholder="Fornecedor" id="TipoEntrada" name="TipoEntrada">
+                    </div>
+                    <div class="col">
+                    <input type="text" class="form-control" placeholder="Valor" id="Valor" name="Valor">
+                    </div>
+                    <div class="col input-group">
+                        <span class="input-group-text">Data - Entrada</span>
+                        <input type="date" class="form-control" placeholder="Data" id="data" name="data">
+                    </div>
+                    <div class="col">
+                        <input type="text" class="form-control" placeholder="Nota" id="nota" name="nota">
+                    </div>
+
+                    <div class="col-1">
+                        <button type="submit" class="btn btn-success">Atualizar</button>
+                    </div>
+                </div>
+                <div class="row mt-3 input-group">
+                    <div class="col ">
+                        <span class="input-group-text">Vencimento</span>
+                        <input type="date" class="form-control" placeholder="Vencimento" id="Vencimento" name="Vencimento">
+                    </div>
+
+                    <div class="col " id="inputsExtras2" style="display: none;">
+                        <span class="input-group-text">Vencimento - 2</span>
+                        <input type="date" class="form-control" placeholder="Vencimento - 2" id="Vencimento2" name="Vencimento2">
+                    </div>
+
+                    <div class="col" id="inputsExtras3" style="display: none;">
+                        <span class="input-group-text">Vencimento - 3</span>
+                        <input type="date" class="form-control" placeholder="Vencimento - 3" id="Vencimento3" name="Vencimento3">
+                    </div>
+                    <div class="col" id="inputsExtras4" style="display: none;">
+                        <span class="input-group-text">Vencimento - 4</span>
+                        <input type="date" class="form-control" placeholder="Vencimento - 4" id="Vencimento4" name="Vencimento4">
+                    </div>
+                    <div class="col">
+                        <div class="form-floating">
+                            <select class="form-select" id="selecaoOpcoes" name="selecaoOpcoes" aria-label="Floating label select example">
+                            <option selected value="1">A Vista</option>
+                            <option value="2">Divido em 2 vezes</option>
+                            <option value="3">Divido em 3 vezes</option>
+                            <option value="4">Divido em 4 vezes</option>
+                            </select>
+                            <label for="floatingSelect">Dividido</label>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+    </form>
+
+    <script>
+        // Adicione um ouvinte de eventos para o select
+        document.getElementById('selecaoOpcoes').addEventListener('change', function () {
+            var selecao = this.value;
+            var inputsExtras2 = document.getElementById('inputsExtras2');
+            var inputsExtras3 = document.getElementById('inputsExtras3');
+            var inputsExtras4 = document.getElementById('inputsExtras4');
+            
+            if (selecao === '1') {
+                inputsExtras2.style.display = 'none'; // Esconda os inputs extras
+                inputsExtras3.style.display = 'none'; // Esconda os inputs extras
+                inputsExtras4.style.display = 'none'; // Esconda os inputs extras
+
+            } else if (selecao == "2") {
+                inputsExtras2.style.display = 'block';
+                inputsExtras3.style.display = 'none'; // Esconda os inputs extras
+                inputsExtras4.style.display = 'none'; // Esconda os inputs extras // Mostre os inputs extras
+
+            } else if (selecao == "3") {
+                inputsExtras2.style.display = 'block'; // Mostre os inputs extras
+                inputsExtras3.style.display = 'block';
+                inputsExtras4.style.display = 'none';  // Mostre os inputs extras
+
+            }else if (selecao == "4") {
+                inputsExtras2.style.display = 'block'; // Mostre os inputs extras
+                inputsExtras3.style.display = 'block'; // Mostre os inputs extras
+                inputsExtras4.style.display = 'block'; // Mostre os inputs extras
+            }
+        });
+    </script>
+
+    <section class="row justify-content-center">
+            <div class="col mt-5 mx-10">
+                <div class="card">
+                    
+                    <div class="card-body bg-primary">
+                        <!-- Exibe as Mensagens do Back-End -->
+                        <div class="m-2 text-center fw-bold">
+                            <h4 class="card-title text-uppercase">Lista de Entrada</h4>
+                            <a class="btn btn-warning" href="../data/Entrada.xlsx" download type="application/vnd.ms-excel">Baixar Planilha</a>
+                        </div>
+                    </div>
+                </div>
+
+                <table class="table table-borered text-center">
+                    <thead>
+                        <tr>
+                            <th>Data</th>
+                            <th>Nota</th>
+                            <th>Fornecedor</th>
+                            <th>Valor</th>
+                            <th>Vencimento</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in range(tamanho)  %}
+                        <tr>
+                            <td>{{ resultaData[i] }}</td>
+                            <td>{{ notas[i] }}</td>
+                            <td>{{ resultaTipo[i] }}</td>
+                            <td>R$ {{ resultaValor[i] }}</td>
+                            <td>{{ vencimento[i] }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+   </main>
+
+</body>
+</html>
